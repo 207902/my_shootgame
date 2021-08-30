@@ -1,0 +1,17 @@
+github.txt
+Your identification has been saved in /Users/freeman/.ssh/id_rsa.
+Your public key has been saved in /Users/freeman/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:8mHCKeSRC9Ogd+Eb8fl+S0mt/f+oMhRU8KdULqzGTTY freeman@freemaneMacBook.lan
+The key's randomart image is:
++---[RSA 3072]----+
+|  . o     .o. .  |
+| . + = .  .o o   |
+|. + O o  .  E o  |
+| . * * o ..B =   |
+|    = = S =.+    |
+|     . * +.+     |
+|        o.= .    |
+|         oo. . . |
+|          .o..o.+|
++----[SHA256]-----+

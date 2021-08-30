@@ -1,4 +1,4 @@
-import pygame #test
+import pygame
 import constants as c
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, bullet_init_pos):
