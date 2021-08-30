@@ -61,4 +61,3 @@ pause_pressed_image=images['game_pause_pressed']
 resume_nor_image=pygame.image.load(os.path.join(directory,'image/resume_nor.png')).convert_alpha()
 resume_pressed_image=pygame.image.load(os.path.join(directory,'image/resume_pressed.png')).convert_alpha()
 pause_rect=pause_nor_image.get_rect()
-#paused_blank=shoot_img.subsurface([(673, 0), (60, 45)])

@@ -58,17 +58,20 @@ isSuperBulletNotStop = False
 # 设置是否处于无敌(不会死)状态
 isNotDead=False
 isHoldFire=False
-def set_paused(paused):
+#print(paused_rect,c.paused_blank.get_rect())
+def set_paused(paused):	
     if paused:
         pygame.time.set_timer(SUPPLY_TIME, 0)
         pygame.mixer.music.pause()
         pygame.mixer.pause()
-        paused_image = c.resume_pressed_image              
+        paused_image = c.resume_nor_image            
     else:
         pygame.time.set_timer(SUPPLY_TIME, 10*1000)
         pygame.mixer.music.unpause()
         pygame.mixer.unpause()
-        paused_image = c.pause_pressed_image
+        paused_image = c.resume_nor_image
+        paused_image = c.pause_nor_image
+    return paused_image
 def inc_speed(target, inc):
     for plane in target:
         plane.speed+=inc
@@ -100,7 +103,7 @@ while True:
                 exit()
             if event.key == K_p:
                 paused = not paused
-                set_paused(paused)
+                paused_image=set_paused(paused)
             elif event.key == K_b:
                 isSuperBulletNotStop = not isSuperBulletNotStop
             elif event.key == K_n:
@@ -132,7 +135,8 @@ while True:
         elif event.type == MOUSEBUTTONDOWN:
             if event.button==1 and paused_rect.collidepoint(event.pos):
                 paused = not paused
-                set_paused(paused)
+                paused_image=set_paused(paused)
+                
         elif event.type == MOUSEMOTION:
             if paused_rect.collidepoint(event.pos):
                 if paused:
@@ -144,6 +148,7 @@ while True:
                     paused_image = c.resume_nor_image
                 else:
                     paused_image = c.pause_nor_image
+                    
         elif event.type == SUPPLY_TIME:
             sounds['supply'].play()
             if choice([True,False]):
@@ -158,7 +163,12 @@ while True:
         elif event.type == IS_NOT_DEAD_TIME:
             isNotDead = False
             pygame.time.set_timer(IS_NOT_DEAD_TIME, 0)
-    if not paused:
+    if paused:
+        pygame.draw.rect(screen,(200,200,200),paused_rect)
+        #screen.blit(background,paused_rect)
+        screen.blit(paused_image,paused_rect)
+        pygame.display.update()
+    else:
         # 绘制背景
         screen.blit(background, (0, 0))
         # 绘制动画
@@ -240,7 +250,6 @@ while True:
         # 绘制全屏炸弹数量
         text_draw.update(bomb_num,life_num, score)          
         # 更新屏幕
-    #screen.blit(c.paused_blank,paused_rect)
-    screen.blit(paused_image,paused_rect)
-    pygame.display.update()
+        screen.blit(paused_image,paused_rect)
+        pygame.display.update()
         

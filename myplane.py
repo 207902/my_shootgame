@@ -9,7 +9,7 @@ class Hero(pygame.sprite.Sprite):
         self.rect.centerx = c.SCREEN_WIDTH//2
         self.rect.y = c.SCREEN_HEIGHT
         self.speed = 10
-
+        self.mask = pygame.mask.from_surface(self.hero_surface[0])
         self.myfires = pygame.sprite.Group()
     def update(self,ticks):
         self.image = self.hero_surface[ticks//(c.animate_cycle//2)]
