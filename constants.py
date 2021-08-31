@@ -10,7 +10,9 @@ screen = pygame.display.set_mode(SCREEN_SIZE)     # 初始化窗口
 pygame.display.set_caption('飞机大战外卖员')       # 设置窗口标题
 # 载入背景图
 background = pygame.image.load(os.path.join(directory,'image/background.png'))
-images = tools.load_all_images(directory)
+bg2 = pygame.image.load(os.path.join(directory,'image/shoot_background.png'))
+images = tools.load_all_images(directory,'shoot')
+bg_images =tools.load_all_images(directory,'shoot_background')
 #背景音乐加载
 pygame.mixer.init()
 pygame.mixer.music.load(os.path.join(directory,'sound/game_music.ogg'))
@@ -19,6 +21,7 @@ sounds = tools.load_all_sfx(os.path.join(directory,'sound'))
 # font
 bomb_font = pygame.font.Font(os.path.join(directory,'font/font.ttf'), 48)
 score_font = pygame.font.Font(os.path.join(directory,'font/font.ttf'), 24)
+kumo_font=pygame.font.Font(os.path.join(directory,'font/font.ttf'), 24)
 #画面帧率
 frame_rate = 60
 animate_cycle = 30 

@@ -1,8 +1,70 @@
 import os,pygame
+from sys import exit
 import constants as c
 class Startup():
 	def __init__(self):
-		pass
+		self.screen = c.screen
+		self.screen_rect = self.screen.get_rect()
+		self.copyright=c.bg_images['shoot_copyright']
+		self.copyright_rect = self.copyright.get_rect()
+		self.copyright_rect.centerx=self.screen_rect.centerx
+		self.copyright_rect.y=20
+		self.game_loading=c.bg_images['game_loading1']
+		self.loading_rect = self.game_loading.get_rect()
+		self.loading_rect.centerx = self.screen_rect.centerx
+		self.loading_rect.y= 300
+		self.num =1
+		self.animate_tick=0
+		self.font=pygame.font.Font(os.path.join(c.directory,'font/kumo.ttf'), 24)
+		self.big_font=pygame.font.Font(os.path.join(c.directory,'font/kumo.ttf'), 36)
+		self.text1='ENTER to start this fun game'
+		self.text2='N:无敌   V:全屏炸弹  B:超级子弹  空格: 炸弹'
+		self.text3='P:暂停   H:停火     M:静音        Q: 退出'
+		self.text4='Last, Good Luck!'
+		
+	def update(self):
+		clock=pygame.time.Clock()
+		clock.tick(60)
+		if self.animate_tick % 30 == 0:
+			self.game_loading=c.bg_images['game_loading'+str(self.num)]
+			if self.num < 4:
+				self.num += 1
+			else:
+				self.num = 1
+			self.screen.blit(c.bg_images['background'],(0,0))
+			self.screen.blit(self.game_loading,self.loading_rect)
+			self.screen.blit(self.copyright,self.copyright_rect)
+			pygame.draw.rect(self.screen,'green',(0,390,c.SCREEN_WIDTH,200),3)
+			txt1=self.big_font.render(self.text1,True, 'blue')
+			txt2=self.font.render(self.text2,True, 'black')
+			txt3=self.font.render(self.text3,True, 'black')
+			txt4=self.big_font.render(self.text4,True, 'red')
+			txt=[txt1,txt2,txt3,txt4]
+			for i in range(4):
+				rect = txt[i].get_rect()
+				rect.centerx = self.screen_rect.centerx
+				rect.y = 400+45*i
+				self.screen.blit(txt[i],rect)
+			#self.screen.blit(c.bg_images['btn_finish'],(0,400))
+			pygame.display.update()
+			
+	def wait_for_press(self):
+		while True:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					exit()
+				elif event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_RETURN:
+						return
+					elif event.key == pygame.K_q:
+						pygame.quit()
+						exit()
+			if self.animate_tick < 300: 
+				self.animate_tick += 1
+			else:
+				self.animate_tick =0
+			self.update()
+
 class Draw_text():
     def __init__(self,screen):
         self.bomb_image = c.images['bomb']
@@ -35,6 +97,7 @@ class Draw_text():
 
 private functions
 '''
+
 def load_all_sfx(directory, accept=('.wav','.mpe','.ogg','.mdi')):
     sounds = {}
     for fx in os.listdir(directory):
@@ -44,8 +107,8 @@ def load_all_sfx(directory, accept=('.wav','.mpe','.ogg','.mdi')):
             sounds[name].set_volume(0.2)
     return sounds
 
-def read_pack_file(directory):
-	file = open(os.path.join(directory,'image/shoot.pack'),'r')
+def read_pack_file(file_path):
+	file = open(file_path,'r')
 	lines = file.readlines()
 	index = 1
 	list={}
@@ -68,11 +131,12 @@ def read_pack_file(directory):
     #file.close()
 	return list
 
-def load_all_images(directory):
-	#self.directory=directory
-	list=read_pack_file(directory)
+def load_all_images(directory,file_name):
+	pack= os.path.join(directory,'image/'+file_name+'.pack')
+	img_name=os.path.join(directory,'image/'+file_name+'.png')
+	list=read_pack_file(pack)
 	images={}
-	shoot_img = pygame.image.load('resources/image/shoot.png')
+	shoot_img = pygame.image.load(img_name)
 	for name, value in list.items():
 		images[name]=shoot_img.subsurface(pygame.Rect(value))
 	return images

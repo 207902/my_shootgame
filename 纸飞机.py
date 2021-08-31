@@ -19,8 +19,6 @@ offset = {pygame.K_LEFT:0,
 
 screen=c.screen
 background = c.background
-
-
 #导入音效文件
 sounds = c.sounds 
 # 载入资源图片
@@ -75,6 +73,9 @@ def set_paused(paused):
 def inc_speed(target, inc):
     for plane in target:
         plane.speed+=inc
+#初始界面
+game_init=tools.Startup()
+game_init.wait_for_press()
 #text
 text_draw = tools.Draw_text(screen)
 #画面帧率
